@@ -85,7 +85,7 @@ class DeviceLogList(APIView):
             except:
                 serializer2.save()
                 return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        return Response(serializer2.errors, status=status.HTTP_400_BAD_REQUEST)
     
     def put(self, request, format=None):
         serializer = DeviceLogSerializer(data=request.data)
@@ -103,7 +103,10 @@ class DeviceLogList(APIView):
             employee_company = employee_s.data["company_id"]
 
             if device_company != employee_company:
-                return Response("Device and Employee must be from the same company", status=status.HTTP_400_BAD_REQUEST)
+                return Response({"message":"Device and Employee must be from the same company"}, status=status.HTTP_400_BAD_REQUEST)
+            
+            if serializer.data["return_date"] == None or serializer.data["return_condition"] == None:
+                return Response({"message" : "Provide return date and return conditon"}, status=status.HTTP_400_BAD_REQUEST)
 
             try:
                 devicelog = DeviceLog.objects.all().filter(device_id=device_id).latest('id')
