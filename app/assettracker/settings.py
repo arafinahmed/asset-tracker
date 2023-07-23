@@ -42,6 +42,7 @@ DJANGO_APPS = [
 THIRD_PARTY_APPS = [
     'rest_framework',
     'django_filters',
+    'drf_yasg'
 ]
 
 LOCAL_APPS = [
@@ -49,6 +50,8 @@ LOCAL_APPS = [
 ]
 
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
+
+SWAGGER_SETTINGS = {"USE_SESSION_AUTH": False}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
