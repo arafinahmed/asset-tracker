@@ -20,6 +20,16 @@ class CompanyList(APIView):
         serializer = CompanySerializer(companies, many=True)
         return Response(serializer.data)
 
+    @swagger_auto_schema(
+        request_body=openapi.Schema(
+            type=openapi.TYPE_OBJECT,
+            properties={
+                "name": openapi.Schema(type=openapi.TYPE_STRING),
+                "email": openapi.Schema(type=openapi.TYPE_STRING),
+            },
+        )
+    )
+
     def post(self, request, format=None):
         serializer = CompanySerializer(data=request.data)
         if serializer.is_valid():
@@ -34,6 +44,16 @@ class EmployeeDetail(APIView):
         return Response(serializer.data)
 
 class EmployeeList(APIView):
+    @swagger_auto_schema(
+        request_body=openapi.Schema(
+            type=openapi.TYPE_OBJECT,
+            properties={
+                "company_id": openapi.Schema(type=openapi.TYPE_STRING),
+                "name": openapi.Schema(type=openapi.TYPE_STRING),
+                "email": openapi.Schema(type=openapi.TYPE_STRING),
+            },
+        )
+    )
     def post(self, request, format=None):
         serializer = EmployeeSerializer(data=request.data)
         if serializer.is_valid():
@@ -48,6 +68,17 @@ class DeviceDetail(APIView):
         return Response(serializer.data)
 
 class DeviceList(APIView):
+    @swagger_auto_schema(
+        request_body=openapi.Schema(
+            type=openapi.TYPE_OBJECT,
+            properties={
+                "company_id": openapi.Schema(type=openapi.TYPE_STRING),
+                "device_type": openapi.Schema(type=openapi.TYPE_STRING),
+                "model": openapi.Schema(type=openapi.TYPE_STRING),
+                "serial_number": openapi.Schema(type=openapi.TYPE_STRING),
+            },
+        )
+    )
     def post(self, request, format=None):
         serializer = DeviceSerializer(data=request.data)
         if serializer.is_valid():
@@ -56,6 +87,17 @@ class DeviceList(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class DeviceLogList(APIView):
+    @swagger_auto_schema(
+        request_body=openapi.Schema(
+            type=openapi.TYPE_OBJECT,
+            properties={
+                "device_id": openapi.Schema(type=openapi.TYPE_STRING),
+                "employee_id": openapi.Schema(type=openapi.TYPE_STRING),
+                "checkout_date": openapi.Schema(type=openapi.TYPE_STRING),
+                "checkout_condition": openapi.Schema(type=openapi.TYPE_STRING),
+            },
+        )
+    )
     def post(self, request, format=None):
         serializer = DeviceLogSerializer(data=request.data)
         serializer2 = DeviceLogSerializer(data=request.data)
@@ -87,6 +129,19 @@ class DeviceLogList(APIView):
                 return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer2.errors, status=status.HTTP_400_BAD_REQUEST)
     
+    @swagger_auto_schema(
+        request_body=openapi.Schema(
+            type=openapi.TYPE_OBJECT,
+            properties={
+                "device_id": openapi.Schema(type=openapi.TYPE_STRING),
+                "employee_id": openapi.Schema(type=openapi.TYPE_STRING),
+                "checkout_date": openapi.Schema(type=openapi.TYPE_STRING),
+                "checkout_condition": openapi.Schema(type=openapi.TYPE_STRING),
+                "return_date": openapi.Schema(type=openapi.TYPE_STRING),
+                "return_condition": openapi.Schema(type=openapi.TYPE_STRING),
+            },
+        )
+    )
     def put(self, request, format=None):
         serializer = DeviceLogSerializer(data=request.data)
         serializer2 = DeviceLogSerializer(data=request.data)
